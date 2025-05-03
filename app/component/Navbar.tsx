@@ -9,8 +9,8 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <nav className="bg-white z-10 sticky mb-48 top-0 bg-opacity-10 backdrop-blur-lg  p-4 rounded-lg shadow-lg">
-      <div className="container   mx-auto flex justify-between ">
+    <nav className="bg-white z-10 sticky  top-0 bg-opacity-10 backdrop-blur-lg  p-4 rounded-lg shadow-lg">
+      <div className="container mx-auto flex justify-between ">
         {/* Logo */}
         <Link href="/" className="text-xl font-bold">Mohammed-Blog</Link>
 

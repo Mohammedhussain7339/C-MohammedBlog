@@ -1,0 +1,195 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { createArticle, fetchArticles, updateArticle } from "../utils/api";
+import { CldUploadWidget } from "next-cloudinary";
+
+export default function ArticleForm() {
+  const [articles, setArticles] = useState([]);
+  const [editingId, setEditingId] = useState(null); // Track which article is being edited
+  const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
+  const [subtitle, setSubtitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [content, setContent] = useState("");
+  const [author, setAuthor] = useState("");
+  const [date, setDate] = useState("");
+  const [image, setImage] = useState("");
+  const [titles, setTitles] =useState([""]);
+  const [contents, setContents]= useState([""])
+  const [refresh,setRefresh] = useState(false)
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await fetchArticles();
+        setArticles(data);
+      } catch (err) {
+        console.error("Error fetching articles:", err);
+      }
+    }
+    fetchData();
+  }, [refresh]);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setRefresh(!refresh)
+    const articleData = { title, slug, subtitle, description, content, author, date, image };
+
+    try {
+      if (editingId) {
+        // Updating an existing article
+        await updateArticle(editingId, articleData);
+        alert("Article updated successfully!");
+      } else {
+        // Creating a new article
+        await createArticle(articleData);
+        alert("Article created successfully!");
+      }
+      resetForm();
+    } catch (err) {
+      console.error("Error saving article:", err);
+    }
+  }
+
+  function resetForm() {
+    setEditingId(null);
+    setTitle("");
+    setSlug("");
+    setSubtitle("");
+    setDescription("");
+    setContent("");
+    setAuthor("");
+    setDate("");
+    setImage("");
+  }
+
+  function handleEdit(article) {  
+    setEditingId(article._id || "");  
+    setTitle(article.title || "");  
+    setSlug(article.slug || "");  
+    setSubtitle(article.subtitle || "");  
+    setDescription(article.description || "");  
+    setContent(article.content || "");  
+    setAuthor(article.author || "");  
+    setDate(article.date || "");  
+    setImage(article.image || "");  
+  }
+
+  const  handleAddTitleAndContent=()=> {
+    if (!slug) {
+      alert("Please enter a slug before adding titles and content.");
+      return;
+    }
+    setTitles([...titles, ""]);
+    setContents([...contents, ""]);
+  }
+
+  function handleTitleChange(index, value) {
+    const updatedTitles = [...titles];
+    updatedTitles[index] = value;
+    setTitles(updatedTitles);
+  }
+
+  function handleContentChange(index, value) {
+    const updatedContents = [...contents];
+    updatedContents[index] = value;
+    setContents(updatedContents);
+  }
+
+
+  
+  return (
+    <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+      <h2 className="text-2xl font-semibold mb-4">
+        {editingId ? "Update Article" : "Create an Article"}
+      </h2>
+      
+      <div className="space-y-4">
+        <input className="w-full p-2 border rounded" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" required />
+        <input className="w-full p-2 border rounded" value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="Slug" required />
+        <input className="w-full p-2 border rounded" value={subtitle} onChange={(e) => setSubtitle(e.target.value)} placeholder="Subtitle" required />
+        <textarea className="w-full p-2 border rounded" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" required />
+        <textarea className="w-full p-2 border rounded" value={content} onChange={(e) => setContent(e.target.value)} placeholder="Content" required />
+        <input className="w-full p-2 border rounded" value={author} onChange={(e) => setAuthor(e.target.value)} placeholder="Author" required />
+        <input type="date" className="w-full p-2 border rounded" value={date} onChange={(e) => setDate(e.target.value)} required />
+
+        <CldUploadWidget
+  cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}
+  uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
+  onSuccess={(result) => {
+    if (result.event === "success") {
+      const imageUrl = result.info.secure_url;
+      console.log("Uploaded Image URL:", imageUrl); // Debugging log
+      setImage(imageUrl);
+    }
+  }}
+>
+  {({ open }) => (
+    <button
+      type="button"
+      onClick={() => open()}
+      className="w-full p-2 border rounded bg-blue-500 text-white"
+    >
+      Upload Image
+    </button>
+  )}
+</CldUploadWidget>
+
+
+        {image && <img src={image} alt="Uploaded" className="w-full h-40 object-cover mt-2 rounded" />}
+        {!editingId?        <button onClick={handleSubmit} className="w-full p-2 bg-green-500 text-white rounded">
+        Create Article        
+        </button>
+:        <button onClick={handleSubmit} className="w-full p-2 bg-green-500 text-white rounded">
+Update Article        
+</button>
+}
+
+        {editingId && (
+          <button type="button" onClick={resetForm} className="w-full p-2 mt-2 bg-gray-500 text-white rounded">
+            Cancel Edit
+          </button>
+        )}
+      </div>
+        {titles.map((t, index) => (
+          <div key={index} className="space-y-2 border p-2 rounded">
+            <input
+              className="w-full p-2 border rounded"
+              value={t}
+              onChange={(e) => handleTitleChange(index, e.target.value)}
+              placeholder="Additional Title"
+            />
+            <textarea
+              className="w-full p-2 border rounded"
+              value={contents[index]}
+              onChange={(e) => handleContentChange(index, e.target.value)}
+              placeholder="Additional Content"
+            />
+          </div>
+        ))}
+
+
+      <h2 className="text-2xl font-semibold mt-6">Articles</h2>
+      <ul>
+        {articles.map((article) => (
+          <li key={article._id} className="border-b py-2">
+            <h3 className="font-bold">{article.title}</h3>
+            <p>{article.slug}</p>
+            {article.image && <img src={article.image} alt="" className="w-full h-40 object-cover mt-2 rounded" />}
+            <button onClick={() => handleEdit(article)} className="p-2 bg-yellow-500 text-white rounded mt-2">
+              Edit
+            </button>
+            {/* <button
+          type="button"
+          onClick={()=>handleAddTitleAndContent(article.slug)}
+          className="w-full p-2 border rounded bg-blue-500 text-white"
+        >
+          Add Title & Content
+        </button> */}
+
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}

@@ -1,8 +1,30 @@
+"use client"
 import Image from "next/image";
-
+import Link from "next/link";
+import { FaFire } from "react-icons/fa";
+import { IoBusiness,IoNewspaper  } from "react-icons/io5";
+import { MdComputer,MdFlight,MdOutlineSportsBaseball   } from "react-icons/md";
+import { BsFillFileEarmarkBarGraphFill } from "react-icons/bs";
+import Footer from "./about/Footer";
+import homeimg from "../public/images/homepage.svg"
+import photo1 from "../public/images/photo1.jpg"
+import photo2 from "../public/images/photo2.jpg"
+import photo3 from "../public/images/photo3.jpg"
 export default function Home() {
+  const categories = [
+    { name: "Technology", icon: <MdComputer className="text-4xl text-blue-500" />, link: "/blogCategories/Technology" },
+    { name: "Travel", icon: <MdFlight className="text-4xl text-green-500" />, link: "/blogCategories/Travel" },
+    { name: "Sport", icon: <MdOutlineSportsBaseball className="text-4xl text-red-500" />, link: "/blogCategories/Sports" },
+    { name: "Business", icon: <IoBusiness className="text-4xl text-yellow-500" />, link: "/blogCategories/Business" },
+    { name: "Education", icon: <BsFillFileEarmarkBarGraphFill className="text-4xl text-purple-500" />, link: "/blogCategories/Education" },
+    { name: "Trends", icon: <FaFire className="text-4xl text-orange-500" />, link: "/blogCategories/Trends" },
+    { name: "Startups", icon: <IoNewspaper className="text-4xl text-indigo-500" />, link: "/blogCategories/Startup" },
+    { name: "News", icon: <IoNewspaper className="text-4xl text-gray-500" />, link: "/blogCategories/News" },
+  ];
+  
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className=" w-full h-[100vh]">
+    <div className="">
       <main className="flex-1 relative  xl:pt-[5.5rem]">
         <section className="container px-4 py-10 mx-auto lg:h-128 lg:space-x-8 lg:flex lg:items-center">
           <div className="w-full text-center lg:text-left lg:w-1/2 lg:-mt-8">
@@ -32,7 +54,8 @@ export default function Home() {
           </div>
           <div className="w-full mt-4 lg:mt-0 lg:w-1/2">
             <Image
-              src="https://www.creative-tim.com/twcomponents/svg/website-designer-bro-purple.svg"
+            src={homeimg}
+            // src={"https://www.creative-tim.com/twcomponents/svg/website-designer-bro-purple.svg"}
               alt="tailwind css components"
               className="w-full h-full max-w-md mx-auto"
               width={500}
@@ -40,14 +63,33 @@ export default function Home() {
             />
           </div>
         </section>
-        <section className="container px-4 pt-4 pb-10 mx-auto">
+        <section className="container  mx-auto">
           <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">Latest components</h3>
           <p className="mt-4 text-gray-500 dark:text-gray-400">The newest featured Tailwind CSS components and templates from the community</p>
-          <div className="grid gap-8 mt-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8  md:grid-cols-2 lg:grid-cols-3">
           </div>
         </section>
         </main>
-<main className="relative top-[220px]">
+        <main className="p-10">
+          <h1 className="font-bold  text-2xl text-center my-4 ">Explore Trending Topics
+          </h1>
+        <div className="flex items-center cursor-pointer flex-wrap gap-10 justify-center">
+        {categories.map((category, index) => (
+              <Link href={category.link} className="hover:text-blue-500">
+          <div key={index} className="p-4 items-center gap-4 justify-center w-[250px] h-[60px] flex rounded-3xl shadow-md dark:bg-gray-800 bg-gray-200 hover:scale-105 transition">
+            <div className=" ">
+              {category.icon}
+            </div>
+            <h3 className="text-lg font-semibold ">
+                {category.name}
+            </h3>
+          </div>
+              </Link>
+        ))}
+      </div>
+</main>
+
+<main className="">
   <section className="container px-4 py-10 mx-auto">
   <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">Price & Plans</h1>
   <div className="grid gap-8 mt-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
@@ -109,9 +151,9 @@ export default function Home() {
     </div>
   </div>
 </section>
-<section className="">
-<section className="container px-4 py-10 mx-auto">
-  <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">Price & Plans</h1>
+<section className=" ">
+<section className="container px-4 py-10 mx-auto ">
+  <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">Our Company Team Member</h1>
   <div className="grid gap-8 mt-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
     {/* Basic Plan */}
 <div className="w-full bg-white hover:border-purple-500 border-2 cursor-pointer hover:scale-105 transition-transform duration-300 dark:bg-gray-800 border-gray-200 dark:border-gray-700 dark:hover:border-blue-800 rounded-lg shadow-lg">
@@ -165,13 +207,15 @@ export default function Home() {
 
 
 </section>
-<section>
+<section className="p-24 container px-4 py-10 mx-auto">
+  <h1 className="text-3xl mb-10 font-bold">Top 10 Blog</h1>
 <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
   {/* Blog 1 Card */}
   <div className="bg-white hover:scale-105 transition dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden">
     <div className="relative">
-      <img 
-        src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGVkdWNhdGlvbnxlbnwwfHwwfHx8MA%3D%3D" 
+      <Image 
+      src={photo1}
+        // src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGVkdWNhdGlvbnxlbnwwfHwwfHx8MA%3D%3D" 
         alt="Blog 1"
         className="w-full h-48 object-cover"
       />
@@ -182,7 +226,7 @@ export default function Home() {
       <p className="mt-2 text-gray-600 dark:text-gray-300">Short description of the blog post that highlights the key points and draws readers in.</p>
       <div className="mt-4 flex items-center justify-between">
         <span className="text-gray-500 dark:text-gray-400">Jan 20, 2025</span>
-        <a href="#" className="text-blue-600 hover:text-blue-800">Read More</a>
+        <Link href="blog" className="text-blue-600 hover:text-blue-800">Read More</Link>
       </div>
     </div>
   </div>
@@ -190,8 +234,9 @@ export default function Home() {
   {/* Blog 2 Card */}
   <div className="bg-white hover:scale-105 transition dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden">
     <div className="relative">
-      <img 
-        src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGVkdWNhdGlvbnxlbnwwfHwwfHx8MA%3D%3D" 
+      <Image
+      src={photo2}
+        // src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGVkdWNhdGlvbnxlbnwwfHwwfHx8MA%3D%3D" 
         alt="Blog 2"
         className="w-full h-48 object-cover"
       />
@@ -202,16 +247,17 @@ export default function Home() {
       <p className="mt-2 text-gray-600 dark:text-gray-300">A captivating introduction to another blog post with key takeaways and engaging content.</p>
       <div className="mt-4 flex items-center justify-between">
         <span className="text-gray-500 dark:text-gray-400">Feb 5, 2025</span>
-        <a href="#" className="text-blue-600 hover:text-blue-800">Read More</a>
+        <Link href="blog" className="text-blue-600 hover:text-blue-800">Read More</Link>
       </div>
     </div>
   </div>
 
   {/* Blog 3 Card */}
-  <div className="bg-white hover:scale-105 transition dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden">
+  <div className="bg-white  hover:scale-105 transition dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden">
     <div className="relative">
-      <img 
-        src="https://plus.unsplash.com/premium_photo-1682125773446-259ce64f9dd7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZWR1Y2F0aW9ufGVufDB8fDB8fHww" 
+      <Image
+      src={photo3}
+        // src="https://plus.unsplash.com/premium_photo-1682125773446-259ce64f9dd7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZWR1Y2F0aW9ufGVufDB8fDB8fHww" 
         alt="Blog 3"
         className="w-full h-48 object-cover"
       />
@@ -222,7 +268,7 @@ export default function Home() {
       <p className="mt-2 text-gray-600 dark:text-gray-300">An insightful summary that will encourage visitors to dive deeper into the article for more knowledge.</p>
       <div className="mt-4 flex items-center justify-between">
         <span className="text-gray-500 dark:text-gray-400">Feb 10, 2025</span>
-        <a href="#" className="text-blue-600 hover:text-blue-800">Read More</a>
+        <Link href="blog" className="text-blue-600 hover:text-blue-800">Read More</Link>
       </div>
     </div>
   </div>
@@ -231,12 +277,9 @@ export default function Home() {
 </section>
 </main>
 
-        {/* Pricing Plans Section */}
+<Footer/>
 
-
-
-
-
+    </div>
     </div>
   );
 }

@@ -75,20 +75,29 @@ const BlogPostPage = () => {
           <h1 className="text-3xl font-semibold text-gray-800 dark:text-gray-200 text-center">
             {post.title}
           </h1>
-          <div className="mt-4 text-gray-600 dark:text-gray-300 text-center">
-            <p>Published on: {post.date}</p>
-            <p>By {post.author}</p>
-          </div>
-          {post.imageUrl && (
-            <img
-              src={post.imageUrl}
-              alt={post.title}
-              className="w-full h-72 object-cover mt-4"
-            />
-          )}
-          <div className="mt-6 text-gray-800 dark:text-gray-200">
+          <div className="mt-6 text-3xl text-gray-800 dark:text-gray-200">
             {post.description}
           </div>
+
+          <div className="mt-4 text-gray-600 dark:text-gray-300">
+  {/* Main subtitle and content */}
+  <h1 className="text-xl font-bold">{post.subtitle}</h1>
+  <p className="mb-4">{post.content}</p>
+
+  {/* Loop through subtitles and contents dynamically */}
+  {post.subtitles?.map((subtitle, index) => (
+    <div key={index} className="mb-4">
+      <h1 className="text-xl font-bold">{subtitle}</h1>
+      <p>{post.contents?.[index]}</p>
+    </div>
+  ))}
+
+  {/* Post metadata */}
+  <div className="text-right font-mono">
+    <p>Published on: {post.date}</p>
+    <p>By {post.author}</p>
+  </div>
+</div>
         </>
       ) : (
         <p className="text-center text-gray-500">Post not available.</p>
