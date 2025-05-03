@@ -20,7 +20,7 @@ export default function ArticlesPage() {
         {articles.map((article) => (
           <li key={article._id}>
             <h2>{article.title}</h2>
-            <p>{article.subtitle}</p>
+            <p>{article.description}</p> // ✅ Matches your type
             <p>{article.intro}</p>
             <p>By: {article.author}</p>
           </li>
