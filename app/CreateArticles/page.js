@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import BASE_URL from "../../app/services/Url"
 import axios from "axios";
 import { createArticle, fetchArticles, updateArticle } from "../utils/api";
 import { CldUploadWidget } from "next-cloudinary";
@@ -116,7 +117,7 @@ export default function ArticleForm() {
       const encodedSlug = encodeURIComponent(currentSlug); // ✅ Encode special characters
   
       const { data } = await axios.patch(
-        `http://localhost:5000/api/articles/${encodedSlug}/add-info`,
+        `${BASE_URL}/api/articles/${encodedSlug}/add-info`,
         {
           subtitle,
           content,

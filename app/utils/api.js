@@ -1,4 +1,5 @@
-export const API_URL = "http://localhost:5000/api/articles";
+import BASE_URL from "../services/Url";
+export const API_URL = `${BASE_URL}/api/articles`;
 
 export  async function fetchArticles() {
   try {
