@@ -285,7 +285,7 @@ export default function ArticleForm() {
       </div>
 
     </div>
-    <div className="w-full h-screen gap-3 bg-black flex p-4">
+    <div className="w-full h-screen gap-3 bg-black flex flex-wrap justify-center p-4">
     {articles.map((article) => (
       <div className="w-[440px] h-[400px] bg-black  border-white border-2 p-2 rounded-md">
       <li key={article._id} className="border-b py-4">

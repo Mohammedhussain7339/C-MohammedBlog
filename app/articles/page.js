@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { fetchArticles } from "../utils/api";
-import { Article } from "../types/article"; // ✅ Correct spelling
+// import { Article } from "../types/article"; // ✅ Correct spelling
 
 export default function ArticlesPage() {
-  const [articles, setArticles] = useState<Array<Article>>([]);
+  const [articles, setArticles] = useState<Array<articles>>([]);
 
   useEffect(() => {
     fetchArticles()
